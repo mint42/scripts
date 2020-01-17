@@ -12,8 +12,8 @@ fi
 touch "$1".cpp "$1".hpp
 
 cat << EOF > "$1".hpp
-#ifndef $1.HPP
-# define $1.HPP
+#ifndef $1_HPP
+# define $1_HPP
 
 class			$1
 {
@@ -28,7 +28,6 @@ class			$1
 }
 
 #endif
-
 EOF
 
 cat << EOF > "$1".cpp

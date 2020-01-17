@@ -1,0 +1,58 @@
+#!/bin/sh
+
+#
+#	A simple generator for a .cpp and .hpp file given a class name
+#
+
+if [ -z $1 ]
+then
+	exit 1;
+fi
+
+touch "$1".cpp "$1".hpp
+
+cat << EOF > "$1".hpp
+#ifndef $1.HPP
+# define $1.HPP
+
+class			$1
+{
+	public:
+		$1();
+		$1(const $1 &old);
+		~$1();
+		void operator = (const $1 &old);
+
+	private:
+		tmp;
+}
+
+#endif
+
+EOF
+
+cat << EOF > "$1".cpp
+#include "$1.hpp"
+
+$1::$1()
+{
+
+}
+
+$1::$1(const $1 &old)
+{
+
+}
+
+$1::~$1()
+{
+
+}
+
+void	$1::operator = (const $1 &old)
+{
+	tmp;
+}
+EOF
+
+vim "$1".{c,h}pp -c "bufdo Stdheader" -c ":wqa"

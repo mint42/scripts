@@ -1,0 +1,29 @@
+#!/bin/sh
+
+#
+#	A simple generator for a .h file given a header name
+#
+
+if [ -z $1 ]
+then
+	exit 1;
+fi
+
+#
+#	Capitalize header guard name
+#
+
+HEADERGUARD=$(echo "$1_H" | tr '[:lower:]' '[:upper:]')
+
+touch "$1".h
+
+cat << EOF > "$1".h
+#ifndef $HEADERGUARD
+# define $HEADERGUARD
+
+
+
+#endif
+EOF
+
+vim "$1".h -c "bufdo Stdheader" -c ":wqa"

@@ -9,11 +9,17 @@ then
 	exit 1;
 fi
 
+#
+#	Capitalize header guard name
+#
+
+HEADERGUARD=$(echo "$1_HPP" | tr '[:lower:]' '[:upper:]')
+
 touch "$1".cpp "$1".hpp
 
 cat << EOF > "$1".hpp
-#ifndef $1_HPP
-# define $1_HPP
+#ifndef $HEADERGUARD
+# define $HEADERGUARD
 
 class			$1
 {
@@ -32,6 +38,7 @@ EOF
 
 cat << EOF > "$1".cpp
 #include "$1.hpp"
+#include <iostream>
 
 /*
 **	Constructors
@@ -39,11 +46,12 @@ cat << EOF > "$1".cpp
 
 $1::$1(void)
 {
-
+	std::cout << "$1: Default constructor called" << std::endl;
 }
 
 $1::$1(const $1 &other)
 {
+	std::cout << "$1: Copy constructor called" << std::endl;
 	*this = other;
 }
 
@@ -53,7 +61,7 @@ $1::$1(const $1 &other)
 
 $1::~$1(void)
 {
-
+	std::cout << "$1: Destructor called" << std::endl;
 }
 
 /*
@@ -62,7 +70,8 @@ $1::~$1(void)
 
 $1		&$1::operator=(const $1 &other)
 {
-	tmp;
+	std::cout << "$1: = operator overloader called" << std::endl;
+	return (*this);
 }
 
 /*
